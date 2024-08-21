@@ -1,0 +1,24 @@
+<br>
+<div class="row" style="padding-top: 2.5rem !important; padding-left: 1.5rem !important; padding-right: 1.5rem !important; ">
+    <h3 style="overflow-y: hidden !important;">Crear Producto</h3>
+    <form (ngSubmit)="onSubmit()" #productForm="ngForm">
+        <div class="mb-3">
+          <input type="file" (change)="onFileSelected($event)" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <input [(ngModel)]="title" name="description" class="form-control" placeholder="Nombre producto" required>
+          </div>
+        <div class="mb-3">
+          <textarea [(ngModel)]="description" name="description" class="form-control" placeholder="Descripción del producto" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="!selectedFile || !description">Subir</button>
+    </form>
+    
+      <div *ngIf="uploadedImage && description" class="card mt-4" style="width: 18rem;">
+        <img [src]="uploadedImage" class="card-img-top" alt="Imagen subida">
+        <div class="card-body">
+          <h5 class="card-title">{{ title }}</h5>
+          <p class="card-text">{{ description }}</p>
+        </div>
+    
+</div>

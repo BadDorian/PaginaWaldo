@@ -1,0 +1,37 @@
+
+
+/* Botón del menú */
+.menu-button {
+    background-color: #084f93;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+/* Dropdown del menú */
+.menu-dropdown {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    right: 10px;
+}
+
+.menu-dropdown a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Mostrar el dropdown al hacer clic en el botón */
+.navbar-menu:hover .menu-dropdown {
+    display: block;
+}
+
+.menu-dropdown a:hover {
+    background-color: #f1f1f1;
+}
