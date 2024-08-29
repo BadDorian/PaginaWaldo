@@ -1,11 +1,11 @@
 export interface Product {
     id: number;
-    type: string; // Esto te permitirá diferenciar entre tipos de productos
-    title : string;
+    type: number; // Esto te permitirá diferenciar entre tipos de productos
+    name : string;
     description: string;
-    image: string;
+    image?: string;
     price: number;
-    quantity: number;
     stock:number;
-    cartQuantity: number;
+    code:number;
+    //cartQuantity: number;
   }

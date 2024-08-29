@@ -83,7 +83,7 @@ export class AuthService {
     }
   
     const jwtToken = JSON.parse(atob(accessToken.split('.')[1]));
-    const expires = new Date(jwtToken.exp * 1000);
+    const expires = new Date(jwtToken.exp * 1000.0001);
     const timeout = expires.getTime() - Date.now() - (6 * 1000);
     
     this.refreshTokenTimeout = setTimeout(() => this.refreshToken().subscribe(), timeout);

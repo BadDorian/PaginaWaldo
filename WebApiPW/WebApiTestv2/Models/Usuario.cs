@@ -2,11 +2,9 @@
 {
     public class Usuario
     {
-        public int id { get; set; }
-        public string nombre { get; set; }
-        public string correo { get; set; }
-        public string contrasenia { get; set; }
-
-        public ICollection<Producto> producto { get; set; }
+        public int Id { get; set; }
+        public string Nombre { get; set; }
+        public string Correo { get; set; }
+        public string Contrasenia { get; set; }
     }
 }

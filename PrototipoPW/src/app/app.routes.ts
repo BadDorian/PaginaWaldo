@@ -5,6 +5,9 @@ import { AdminComponent } from './pages/admin/admin.component';
 import { LoginComponent } from './pages/login/login.component';
 import { authGuard } from './guards/auth.guard';
 import { RegisterComponent } from './pages/register/register.component';
+import { ProductsListComponent } from './components/products-list/products-list.component';
+import { ProductComponent } from './pages/product/product.component';
+import { CategoriesComponent } from './pages/categories/categories.component';
 
 export const routes: Routes = [
     {
@@ -28,5 +31,16 @@ export const routes: Routes = [
     {
         path:'register',
         component: RegisterComponent
+    },
+    {
+        path:'productList',
+        component: ProductsListComponent
+    },
+    {   path: 'product/:id', 
+        component: ProductComponent 
+    }
+    ,
+    {   path: 'category/:id', 
+        component: CategoriesComponent 
     }
 ];

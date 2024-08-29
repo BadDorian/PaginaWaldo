@@ -1,3 +1,10 @@
+/* Eliminar los bordes redondeados */
+.card, .card-img {
+  
+  border: 0;
+}
+
+
 /* Ocultar el botón por defecto */
 .hover-btn {
     opacity: 0;
@@ -14,6 +21,7 @@
     background-color: rgba(0, 0, 0, 0.5); /* Oscurece la imagen al hacer hover */
     opacity: 1;
     transition: opacity 0.3s ease;
+    
   }
   
   /* Ocultar y mostrar el fondo oscuro solo en hover */

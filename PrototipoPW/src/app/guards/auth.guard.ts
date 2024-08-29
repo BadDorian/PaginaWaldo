@@ -9,12 +9,16 @@ export const authGuard: CanActivateFn =  (route, state) => {
     return true;
   } else {
      router.navigate(['/']);
+     localStorage.removeItem("accessToken");
+     localStorage.removeItem("refreshToken");
+     localStorage.removeItem("logedUser");
     return false;
   }
 };
 
 const isTokenExpired = (token: string): boolean => {
   const jwtToken = JSON.parse(atob(token.split('.')[1]));
-  const expiry = (jwtToken.exp * 1000) - Date.now();
-  return expiry < 0;
+  const expires = new Date(jwtToken.exp * 1000);
+  const timeout = expires.getTime() - Date.now() ;
+  return timeout < 0;
 };

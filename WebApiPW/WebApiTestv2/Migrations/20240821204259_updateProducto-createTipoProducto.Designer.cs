@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApiTestv2.Models;
 
@@ -11,9 +12,11 @@ using WebApiTestv2.Models;
 namespace WebApiTestv2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240821204259_updateProducto-createTipoProducto")]
+    partial class updateProductocreateTipoProducto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -267,9 +270,14 @@ namespace WebApiTestv2.Migrations
                     b.Property<int>("TipoProductoId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("UsuarioId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("TipoProductoId");
+
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Productos");
                 });
@@ -358,7 +366,16 @@ namespace WebApiTestv2.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("WebApiTestv2.Models.Usuario", null)
+                        .WithMany("Producto")
+                        .HasForeignKey("UsuarioId");
+
                     b.Navigation("TipoProducto");
+                });
+
+            modelBuilder.Entity("WebApiTestv2.Models.Usuario", b =>
+                {
+                    b.Navigation("Producto");
                 });
 #pragma warning restore 612, 618
         }

@@ -37,7 +37,7 @@ export class ShoppingCartComponent {
     let message = 'Hola, me gustaría comprar los siguientes productos:\n\n';
 
     cartItems.forEach(item => {
-      message += `- ${item.title} x${item.cartQuantity} - ${item.price} cada uno.\n`;
+      //message += `- ${item.name} x${item.cartQuantity} - ${item.price} cada uno.\n`;
     });
 
     message += `\nTotal: ${this.getTotal()}`;

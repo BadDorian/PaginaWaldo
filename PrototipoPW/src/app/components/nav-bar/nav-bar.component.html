@@ -13,23 +13,15 @@
           <li class="nav-item">
             <a class="nav-link" aria-current="page" (click)="NavigateHome()">Inicio</a>
           </li>
-        
-          
-          <li class="nav-item dropdown"  >
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Productos
-            </a>
-            <ul class="dropdown-menu w-100 custom-dropdown" style="border-radius: 0; margin-top: 1rem;">
-              <li><a class="dropdown-item" >Frontales</a></li>
-              <li><hr class="dropdown-divider" style=" background-color: white !important; "></li>
-              <li><a class="dropdown-item" >Bajo Chasis</a></li>
-              
-            </ul>
+          <li class="nav-item">
+            <button class="btn btn-link nav-link" (click)="toggleMenu()">Categorías</button>
           </li>
           <li class="nav-item">
             <a class="nav-link" aria-current="page"  (click)="NavigateAbout()">Nosotros</a>
           </li>
-         
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page"  (click)="NavigateProductList()">Lista de Productos</a>
+          </li>
           <li class="nav-item">
             <a class="nav-link" aria-current="page"  (click)="NavigateAdmin()">Administracion</a>
           </li>
@@ -50,4 +42,12 @@
   </div>
 </nav>
 
-  
+  <!-- Panel de Categorías -->
+<div class="category-menu" [class.show]="menuVisible" style="margin-top: 3.5rem; margin-bottom: 3.5rem;">
+  <ul>
+    <li [routerLink]="['/category', category.id]" *ngFor="let category of categories" (click)="selectCategory(category)">
+      {{ category.descripcion }}
+      
+    </li>
+  </ul>
+</div>

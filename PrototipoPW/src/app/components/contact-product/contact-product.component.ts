@@ -20,10 +20,6 @@ export class ContactProductComponent  {
   
   addToCart(product: Product) {
     if (product.stock > 0) {
-      console.log(product.stock + "," + product.quantity)
-      product.stock = product.stock - product.quantity
-      
-      console.log(product.stock)
       this.cartService.addToCart(product);
     }
   }
