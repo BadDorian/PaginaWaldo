@@ -1,0 +1,57 @@
+
+
+<div class="container-fluid fixed-top text-bg-dark" style="box-shadow: 4px 6px 10px black;">
+  <header class="d-flex justify-content-center py-3 ">
+    <ul class="nav nav-pills">
+      <li class="nav-item">
+        <a class="nav-link text-white" aria-current="page" [routerLink]="['/']" >Inicio</a>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link text-white" aria-current="page">Nosotros</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" [routerLink]="['/administracion']" aria-current="page" >Administracion</a>
+      </li>
+      <li class="nav-item"><a href="#" class="nav-link text-white">FAQs</a></li>
+      <li class="nav-item"><a  class="nav-link text-white" (click)="toggleCart()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+      </svg><span class="badge text-bg-secondary">{{carritoItems.length}}</span></a></li>
+      <li class="nav-item" *ngIf="currentUser">
+        <span class="nav-link text-white">Hola, {{ currentUser }}</span>
+      </li>
+      <li class="nav-item" *ngIf="currentUser">
+        <a class="nav-link text-white" (click)="logout()">Cerrar sesión</a>
+      </li>
+    </ul>
+  </header>
+ 
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Tenth navbar example">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample08" aria-controls="navbarsExample08" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-md-center" id="navbarsExample08">
+        <ul class="navbar-nav nav-pills text-center">
+          <li class="nav-item dropdown" *ngFor="let cat of getTypes()">
+            <div class="dropdown-center" id="cat{{cat}}">
+              <button class="btn btn-secondary dropdown-toggle btn-dropdown text-bg-dark" data-bs-toggle="dropdown" type="button"  aria-expanded="false" >
+                {{ cat | titlecase }}
+              </button>
+              <ul class="dropdown-menu btn-dropdown" >
+                <li><a class="dropdown-item" [routerLink]="['/subCategory/' ,subCat.id]" *ngFor="let subCat of groupedSubCategories[cat]">{{subCat.descripcion}}</a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+
+
+<div class="position-fixed top-0 end-0 m-1"  [ngStyle]="{'display': isCartVisible ? 'block' : 'none'}" style="padding-top: 5.5rem; z-index: 1000;">
+  <app-shopping-cart ></app-shopping-cart>
+</div>
+
+

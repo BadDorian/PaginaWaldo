@@ -12,8 +12,7 @@ namespace WebApiTestv2.Models
         public int Stock { get; set; }
         public byte[]? ImgProduct { get; set; }
         public string? Descripcion { get; set; }
-        public TipoProducto? TipoProducto { get; set; }
-        public int TipoProductoId { get; set; }
+        public int SubCategoriaId { get; set; }
 
     }
 }

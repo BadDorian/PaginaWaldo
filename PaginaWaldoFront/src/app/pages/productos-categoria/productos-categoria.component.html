@@ -1,0 +1,61 @@
+
+<div *ngIf="categoryId !== 'null'">
+  <div class="container-fluid" style="margin-top: 10.5rem;" *ngIf="categoriProducts">
+    <div class="row">
+      <!-- Sidebar -->
+      <div class="col-12 col-md-3 col-lg-2" style="background-color: red;">
+        <div class="flex-shrink-0 p-3 bg-light" style="width: 100%; height: 100% !important;">
+          <a href="/" class="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
+            <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
+            <span class="fs-5 fw-semibold">Collapsible</span>
+          </a>
+          <ul class="list-unstyled ps-0">
+            <div *ngFor="let type of getTypes()" >
+              <h2 style=" color: #5a5b62;" class="text-center" >{{ type | titlecase }}</h2>
+              <div class="row" >
+                  <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-4 d-flex justify-content-center" *ngFor="let product of groupedProducts[type]">
+                      <ng-container [ngSwitch]="product.tipoProductoId">
+                          <app-card-item *ngSwitchCase="product.tipoProductoId"  [product]="product" [isHome]="false"></app-card-item>
+                          <p *ngSwitchDefault>Producto no reconocido</p>
+                      </ng-container>
+                  </div>
+              </div>
+            </div>
+            <!-- Home -->
+            <li class="mb-1" *ngFor="let type of getTypes()">
+              <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+                {{ type | titlecase }}
+              </button>
+              <div class="collapse show" id="home-collapse">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small" *ngFor="let product of groupedProducts[type]">
+                  <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">{{product.nombre}}</a></li>
+                </ul>
+              </div>
+            </li>
+            <!-- Other sections... -->
+          </ul>
+        </div>
+      </div>
+  
+      <!-- Main content (Products) -->
+      <div class="col-12 col-md-9 col-lg-10">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a [routerLink]="['/']">Inicio</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ categoriProducts.descripcion }}</li>
+          </ol>
+        </nav>
+        <h1>{{ categoriProducts.descripcion }}</h1>
+        
+        <!-- Product Grid -->
+        <div class="row">
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let category of allProductsCategory">
+            <app-card-item [product]="category" [isHome]="false"></app-card-item>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  </div>
+  

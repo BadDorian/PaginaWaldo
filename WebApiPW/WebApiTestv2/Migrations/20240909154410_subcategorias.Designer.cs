@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApiTestv2.Models;
 
@@ -11,9 +12,11 @@ using WebApiTestv2.Models;
 namespace WebApiTestv2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240909154410_subcategorias")]
+    partial class subcategorias
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -231,9 +234,8 @@ namespace WebApiTestv2.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -286,7 +288,7 @@ namespace WebApiTestv2.Migrations
 
                     b.HasIndex("TipoProductoId");
 
-                    b.ToTable("SubCategorias");
+                    b.ToTable("SubCategoria");
                 });
 
             modelBuilder.Entity("WebApiPW.Models.TipoProducto", b =>
@@ -333,12 +335,12 @@ namespace WebApiTestv2.Migrations
                     b.Property<int>("Stock")
                         .HasColumnType("int");
 
-                    b.Property<int>("SubCategoriaId")
+                    b.Property<int>("TipoProductoId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SubCategoriaId");
+                    b.HasIndex("TipoProductoId");
 
                     b.ToTable("Productos");
                 });
@@ -432,25 +434,24 @@ namespace WebApiTestv2.Migrations
 
             modelBuilder.Entity("WebApiPW.Models.SubCategoria", b =>
                 {
-                    b.HasOne("WebApiPW.Models.TipoProducto", null)
+                    b.HasOne("WebApiPW.Models.TipoProducto", "TipoProducto")
                         .WithMany("SubCategorias")
                         .HasForeignKey("TipoProductoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("TipoProducto");
                 });
 
             modelBuilder.Entity("WebApiTestv2.Models.Producto", b =>
                 {
-                    b.HasOne("WebApiPW.Models.SubCategoria", null)
-                        .WithMany("Productos")
-                        .HasForeignKey("SubCategoriaId")
+                    b.HasOne("WebApiPW.Models.TipoProducto", "TipoProducto")
+                        .WithMany()
+                        .HasForeignKey("TipoProductoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("WebApiPW.Models.SubCategoria", b =>
-                {
-                    b.Navigation("Productos");
+                    b.Navigation("TipoProducto");
                 });
 
             modelBuilder.Entity("WebApiPW.Models.TipoProducto", b =>

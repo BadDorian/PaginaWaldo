@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApiTestv2.Models;
 
@@ -11,9 +12,11 @@ using WebApiTestv2.Models;
 namespace WebApiTestv2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240902004102_createCarritoBd")]
+    partial class createCarritoBd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -231,9 +234,8 @@ namespace WebApiTestv2.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -265,28 +267,6 @@ namespace WebApiTestv2.Migrations
                     b.HasIndex("CarritoId");
 
                     b.ToTable("CarritoItems");
-                });
-
-            modelBuilder.Entity("WebApiPW.Models.SubCategoria", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TipoProductoId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TipoProductoId");
-
-                    b.ToTable("SubCategorias");
                 });
 
             modelBuilder.Entity("WebApiPW.Models.TipoProducto", b =>
@@ -333,12 +313,12 @@ namespace WebApiTestv2.Migrations
                     b.Property<int>("Stock")
                         .HasColumnType("int");
 
-                    b.Property<int>("SubCategoriaId")
+                    b.Property<int>("TipoProductoId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SubCategoriaId");
+                    b.HasIndex("TipoProductoId");
 
                     b.ToTable("Productos");
                 });
@@ -430,32 +410,15 @@ namespace WebApiTestv2.Migrations
                     b.Navigation("Carrito");
                 });
 
-            modelBuilder.Entity("WebApiPW.Models.SubCategoria", b =>
+            modelBuilder.Entity("WebApiTestv2.Models.Producto", b =>
                 {
-                    b.HasOne("WebApiPW.Models.TipoProducto", null)
-                        .WithMany("SubCategorias")
+                    b.HasOne("WebApiPW.Models.TipoProducto", "TipoProducto")
+                        .WithMany()
                         .HasForeignKey("TipoProductoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("WebApiTestv2.Models.Producto", b =>
-                {
-                    b.HasOne("WebApiPW.Models.SubCategoria", null)
-                        .WithMany("Productos")
-                        .HasForeignKey("SubCategoriaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("WebApiPW.Models.SubCategoria", b =>
-                {
-                    b.Navigation("Productos");
-                });
-
-            modelBuilder.Entity("WebApiPW.Models.TipoProducto", b =>
-                {
-                    b.Navigation("SubCategorias");
+                    b.Navigation("TipoProducto");
                 });
 #pragma warning restore 612, 618
         }

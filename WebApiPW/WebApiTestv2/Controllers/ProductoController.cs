@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using WebApiPW.ApiModels;
+using WebApiPW.Models;
 using WebApiTestv2.Models;
 
 namespace WebApiPW.Controllers
@@ -22,12 +23,47 @@ namespace WebApiPW.Controllers
         {
             try
             {
-                var products = await _dbContext.Productos.Include(x => x.TipoProducto).ToListAsync();
+                var products = await _dbContext.Productos.ToListAsync();
                 return Ok(products);
             }
             catch (Exception ex)
             {
                 
+                return BadRequest(ex);
+            }
+        }
+        [HttpGet("getAllProductoAdmin")]
+        public async Task<IActionResult> GetAllProductoAdmin()
+        {
+            try
+            {
+                var fullCategories = await _dbContext.TiposProductos
+                   .Include(tp => tp.SubCategorias)
+                       .ThenInclude(sc => sc.Productos)
+                   .ToListAsync();
+
+                if (fullCategories != null && fullCategories.Any())
+                    return Ok(fullCategories);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpGet("getAllSubCategories")]
+        public async Task<IActionResult> GetAllSubCategories()
+        {
+            try
+            {
+                var subcategories = await _dbContext.SubCategorias.ToListAsync();
+                return Ok(subcategories);
+            }
+            catch (Exception ex)
+            {
+
                 return BadRequest(ex);
             }
         }
@@ -50,7 +86,7 @@ namespace WebApiPW.Controllers
         {
             try
             {
-                var product = await _dbContext.Productos.Include(x => x.TipoProducto).Where(p => p.Id == id).FirstOrDefaultAsync();
+                var product = await _dbContext.Productos.Where(p => p.Id == id).FirstOrDefaultAsync();
                 if (product != null) 
                     return Ok(product);
                 return NoContent();
@@ -62,14 +98,76 @@ namespace WebApiPW.Controllers
             }
         }
 
-        [HttpGet("getProductoByCategoryId/{categoryId}")]
-        public async Task<IActionResult> getProductoByCategoryId(int categoryId)
+        [HttpGet("getProductoBySubCategoryId/{subCategoryId}")]
+        public async Task<IActionResult> getProductoByCategoryId(int subCategoryId)
         {
             try
             {
-                var product = await _dbContext.Productos.Include(x => x.TipoProducto).Where(p => p.TipoProductoId == categoryId).ToListAsync();
-                if (product != null)
-                    return Ok(product);
+                
+                var subcategorie = await _dbContext.SubCategorias.Include(p => p.Productos).Where(sc => sc.Id == subCategoryId).FirstOrDefaultAsync();
+                
+                if (subcategorie != null)
+                    return Ok(subcategorie);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpGet("getCompleteCategoryByProductId/{productId}")]
+        public async Task<IActionResult> getCompleteCategoryByProductId(int productId)
+        {
+            try
+            {
+                var product = await _dbContext.Productos.Where(p => p.Id == productId).FirstOrDefaultAsync();
+                var subCategoryProduct = await _dbContext.SubCategorias.Where(sc => sc.Id == product.SubCategoriaId).FirstOrDefaultAsync();
+                var fullCategories = await _dbContext.TiposProductos.Where(fc => fc.Id == subCategoryProduct.TipoProductoId).FirstOrDefaultAsync();
+
+                if (fullCategories != null)
+                    return Ok(fullCategories);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex);
+            }
+        }
+
+
+        [HttpGet("getCompleteCategoryBySubCatId/{subCategoryId}")]
+        public async Task<IActionResult> getCompleteCategoryBySubCatId(int subCategoryId)
+        {
+            try
+            {
+                var product = await _dbContext.Productos.Where(p => p.SubCategoriaId == subCategoryId).ToListAsync();
+                var subCategoryProduct = await _dbContext.SubCategorias.Where(sc => sc.Id == subCategoryId).FirstOrDefaultAsync();
+                var fullCategories = await _dbContext.TiposProductos.Where(fc => fc.Id == subCategoryProduct.TipoProductoId).FirstOrDefaultAsync();
+
+                if (fullCategories != null)
+                    return Ok(fullCategories);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpGet("getCompleteCategoryById/{categoryId}")]
+        public async Task<IActionResult> getCompleteCategoryById(int categoryId)
+        {
+            try
+            {
+                var subCategoryProduct = await _dbContext.SubCategorias.Include(sc => sc.Productos).Where(sc => sc.TipoProductoId == categoryId).ToListAsync();
+                var fullCategories = await _dbContext.TiposProductos.Where(fc => fc.Id == categoryId).FirstOrDefaultAsync();
+
+                if (fullCategories != null)
+                    return Ok(fullCategories);
                 return NoContent();
             }
             catch (Exception ex)
@@ -97,7 +195,7 @@ namespace WebApiPW.Controllers
                         ImgProduct = byteArray,
                         Stock = producto.stock,
                         Codigo = producto.code,
-                        TipoProductoId = producto.type
+                        SubCategoriaId = producto.type
                     };
 
                     await _dbContext.Productos.AddAsync(newProduct);

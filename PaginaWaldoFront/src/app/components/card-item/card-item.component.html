@@ -1,0 +1,72 @@
+<!-- <div class="card image-card" style="margin: 15px; margin-bottom: 4.5rem; box-shadow: 4px 6px 10px black; ">
+    <img [src]="product.imgProduct"  class="card-img" alt="Product Image">
+    <div class="card-img-overlay d-flex flex-column justify-content-end">
+      <div class="product-info text-white">
+        <h5 class="card-title">{{ product.nombre }}</h5>
+        <p class="card-text">{{product.precio}}</p>
+        <p class="card-text">{{product.stock}}</p>
+        
+        <div class="d-flex justify-content-center align-items-center ">
+          <div class=" mt-4">
+           
+            <div class="col-12 col-md-12 mt-4 text-center">
+              <span  id="inputGroup-sizing-default">Cantidad</span>
+            </div>
+             <div class="col-12 col-md-12 mt-4 text-center">
+               
+                <button  class="btn btn-outline-secondary" (click)="removeQuantity(product)">-</button>
+                <label for="" style="margin: 1rem;">{{cantidadProductoSeleccionado}}</label>
+                
+                <button  class="btn btn-outline-secondary" (click)="addQuantity(product)">+</button>
+              </div>
+            </div>
+            
+        </div>
+       
+      </div>
+    
+      <div class="d-flex justify-content-center align-items-center hover-btn-container">
+        <div class=" d-flex justify-content-between mt-4">
+    
+            <div class="col-12 col-md-12 mt-4 text-center">
+             
+              <button  class="btn btn-outline-secondary" (click)="addCarritoNew(product)">Agregar a carrito</button>
+            </div>
+          </div>
+          
+      </div>
+    </div>
+  </div>-->
+
+  <div class="card shadow-xl mt-4 margin-bottom-custom" style="border-radius: 0; box-shadow: 4px 6px 10px black;">
+     <img [src]="product.imgProduct"  class="card-img" alt="Product Image" style="border-radius: 0;">
+    <div class="card-body" *ngIf="!isHome" style="background-color: #294b77; color: white; border: 2px solid #14435b;">
+      <h5 class="card-title">{{ product.nombre }}</h5>
+        <p class="card-text">${{product.precio}}</p>
+        <p class="card-text">Stock: {{product.stock}}</p>
+      <div class="d-flex justify-content-center align-items-center " >
+        <div>
+            <div class="col-12 col-md-12 text-center">
+              <span  id="inputGroup-sizing-default" >Cantidad</span>
+            </div>
+            <div class="col-12 col-md-12 text-center">
+              <button  class="btn custom-outline-btn no-border-radius" (click)="removeQuantity(product)">-</button>
+              <label for="" style="margin: 1rem;">{{cantidadProductoSeleccionado}}</label>
+              <button  class="btn custom-outline-btn no-border-radius" (click)="addQuantity(product)">+</button>
+            </div>
+          </div>
+      </div>
+      <div class="d-flex justify-content-center align-items-center" >
+        <div class="btn-group">
+          <button  class="btn custom-outline-btn no-border-radius"  (click)="addCarritoNew(product)">Agregar a carrito</button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body" *ngIf="isHome" style="background-color: #294b77; color: white; border: 1px solid;">
+      <h5 class="card-title">{{ product.nombre }}</h5>
+        <p class="card-text">${{product.precio}}</p>
+        <p class="card-text">Stock: {{product.stock}}</p>
+      
+    </div>
+  </div>
+  

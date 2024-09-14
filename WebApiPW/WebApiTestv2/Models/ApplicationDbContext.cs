@@ -10,6 +10,9 @@ namespace WebApiTestv2.Models
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Producto> Productos { get; set; }
         public DbSet<TipoProducto> TiposProductos { get; set; }
+        public DbSet<Carrito> Carritos { get; set; }
+        public DbSet<CarritoItem> CarritoItems { get; set; }
+        public DbSet<SubCategoria> SubCategorias { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
 

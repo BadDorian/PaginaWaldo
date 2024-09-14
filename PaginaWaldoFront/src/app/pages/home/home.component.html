@@ -1,0 +1,42 @@
+<br id="testScroll" >
+ <!-- Título y subtítulo -->
+ <h1 class="display-5 fw-bold" style=" margin-top: 6rem; color: #5a5b62;">Repuestos y Accesorios para Camiones</h1>
+ <p class="lead" style="color: #5a5b62;">Encuentra todo lo que necesitas para mantener tu flota en movimiento</p>
+
+<div class="row">
+    <div class="col-12" style="padding-left:0 ; padding-right: 0;">
+         <app-carousel ></app-carousel>
+    </div>
+
+</div>
+
+    <!-- Sección de Productos Destacados -->
+    <div class="container my-5">
+        <h2 class="text-center mb-4 " style=" color: #5a5b62;">Productos Destacados</h2>
+        <div class="row">
+            <div class="col-md-4" *ngFor="let lastProduct of lastProducts">
+             
+  
+              <ng-container [ngSwitch]="lastProduct.tipoProductoId">
+                <app-card-item *ngSwitchCase="lastProduct.tipoProductoId"  [product]="lastProduct" [isHome]="false"></app-card-item>
+                <p *ngSwitchDefault>Producto no reconocido</p>
+            </ng-container>
+            </div>
+          
+          </div>
+        <div *ngFor="let type of getTypes()" >
+          <h2 style=" color: #5a5b62;" class="text-center" >{{ type | titlecase }}</h2>
+          <div class="row" >
+              <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-4 d-flex justify-content-center" *ngFor="let product of groupedProducts[type]">
+                  <ng-container [ngSwitch]="product.tipoProductoId">
+                      <app-card-item *ngSwitchCase="product.tipoProductoId"  [product]="product" [isHome]="false"></app-card-item>
+                      <p *ngSwitchDefault>Producto no reconocido</p>
+                  </ng-container>
+              </div>
+          </div>
+        </div>
+      </div> 
+        
+<div class="position-fixed bottom-0 end-0 m-1">
+    <app-floating-button [targetDivId]="'testScroll'"></app-floating-button>
+</div>
