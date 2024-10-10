@@ -5,7 +5,6 @@ import { CartItem } from '../../models/cartitem';
 import { RouterModule } from '@angular/router';
 import { WhatsappButtonComponent } from '../../components/whatsapp-button/whatsapp-button.component';
 import { CommonModule } from '@angular/common';
-
 @Component({
   selector: 'app-carrito-compras',
   standalone: true,
@@ -16,14 +15,16 @@ import { CommonModule } from '@angular/common';
 export class CarritoComprasComponent implements OnInit {
   carritoItems: any[] = [];
   sessionId: string;
-
+  cantidadProductoSeleccionado: number = 0
   constructor(private shoppingCartService: CartShoppingService, private stockService: StockService) {
     this.sessionId = localStorage.getItem('sessionId') || this.generateSessionId();
   }
 
   ngOnInit() {
+     
     this.shoppingCartService.carrito$.subscribe(items => {
       this.carritoItems = items;
+      
     });
 
     this.shoppingCartService.obtenerCarrito(this.sessionId);
@@ -67,4 +68,10 @@ export class CarritoComprasComponent implements OnInit {
   clearCart() {
     this.carritoItems.forEach(item => this.removeProduct(item.producto.id, item.cantidad));
   }
+
+  createImageFromByteArray(base64String: string): string {
+    return `data:image/jpeg;base64,${base64String}`;
+  }
+
+ 
 }

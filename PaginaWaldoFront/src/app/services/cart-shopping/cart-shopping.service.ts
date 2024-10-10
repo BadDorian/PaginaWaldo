@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, tap } from 'rxjs';
-import { CartItem } from '../../models/cartitem';
 import { HttpClient } from '@angular/common/http';
-import { Product } from '../../models/product';
 import { CarritoItemDto } from '../../models/carritoItemDto';
+import { StockService } from '../stock/stock.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +14,7 @@ export class CartShoppingService {
   private apiUrl = 'https://localhost:7283/api/Carrito';
 
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private stockService : StockService) {}
 
   obtenerCarrito(sessionId: string | null) {
     this.http.get<any[]>(`${this.apiUrl}/getCarrito?userId=${sessionId}`).subscribe(items => {
@@ -29,10 +28,11 @@ export class CartShoppingService {
       tap(() => {
         // Refrescar el carrito después de agregar un producto
         this.obtenerCarrito(carrito.UserId);
+  
+        // Ajustar el stock en el frontend después de agregar al carrito
+        this.stockService.ajustarStock(carrito.ProductoId, carrito.Cantidad);
       })
     );
-   
-    
   }
 
   eliminarProducto(productoId: number, sessionId: string, cantidad: number) {

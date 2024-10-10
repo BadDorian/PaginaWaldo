@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from '../../models/product';
 import { CartItem } from '../../models/cartitem';
 import { ProductService } from '../../services/product/product.service';
-import { ShoppingCartService } from '../../services/shopping-cart/shopping-cart.service';
-import { StockService } from '../../services/stock/stock.service';
 import { CommonModule } from '@angular/common';
 import { CardItemComponent } from '../../components/card-item/card-item.component';
 import { ShoppingCartComponent } from '../../components/shopping-cart/shopping-cart.component';

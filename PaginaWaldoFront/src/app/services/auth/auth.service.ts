@@ -32,30 +32,28 @@ export class AuthService {
 
   login(email: string, password: string): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, { email, password }).pipe(
-      tap(response =>{
+      tap(response => {
         if (response.accessToken && response.refreshToken) {
-          localStorage.setItem('accessToken', response.accessToken);
-          localStorage.setItem('refreshToken', response.refreshToken);
-          localStorage.setItem('logedUser', email);
+          sessionStorage.setItem('accessToken', response.accessToken);
+          sessionStorage.setItem('refreshToken', response.refreshToken);
+          sessionStorage.setItem('logedUser', email);
           this.currentUserSubject.next(email);
           this.startRefreshTokenTimer();
         } else {
           console.error('Invalid login response');
         }
       })
-    )
+    );
   }
 
-  logout():void{
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("logedUser");
-    this.stopRefreshTokenTimer()
-    this.router.navigate(['/'])
+  logout(): void {
+    sessionStorage.clear();  // Limpiar sessionStorage
+    this.stopRefreshTokenTimer();
+    this.router.navigate(['/']);
   }
   refreshToken(): Observable<AuthResponse> {
-    const accessToken = localStorage.getItem('accessToken');
-    const refreshToken = localStorage.getItem('refreshToken');
+    const accessToken = sessionStorage.getItem('accessToken');
+    const refreshToken = sessionStorage.getItem('refreshToken');
     if (!accessToken || !refreshToken) {
       console.error('Access token or refresh token is null');
       return of(); // Devuelve un observable vacío
@@ -68,8 +66,8 @@ export class AuthService {
   
     return this.http.post<AuthResponse>(`${this.apiUrl}/refresh`, tokenModel).pipe(
       map((response: AuthResponse) => {
-        localStorage.setItem('accessToken', response.accessToken);
-        localStorage.setItem('refreshToken', response.refreshToken);
+        sessionStorage.setItem('accessToken', response.accessToken);
+        sessionStorage.setItem('refreshToken', response.refreshToken);
         this.startRefreshTokenTimer();
         return response;
       })
@@ -77,17 +75,20 @@ export class AuthService {
   }
 
   startRefreshTokenTimer() {
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = sessionStorage.getItem('accessToken');
     if (!accessToken) {
-      console.error('Access token is null');
       return;
     }
   
     const jwtToken = JSON.parse(atob(accessToken.split('.')[1]));
-    const expires = new Date(jwtToken.exp * 1000.0001);
-    const timeout = expires.getTime() - Date.now() - (6 * 1000);
-    
-    this.refreshTokenTimeout = setTimeout(() => this.refreshToken().subscribe(), timeout);
+    const expires = new Date(jwtToken.exp * 1000);
+    const timeout = expires.getTime() - Date.now(); // 5 minutos antes de expirar
+  
+    if (timeout <= 0) {
+      this.logout();  // Cerrar sesión si el token ya expiró
+    } else {
+      this.refreshTokenTimeout = setTimeout(() => this.refreshToken().subscribe(), timeout);
+    }
   }
 
   stopRefreshTokenTimer() {

@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { StockService } from '../../services/stock/stock.service';
 import { ProductService } from '../../services/product/product.service';
-import { ShoppingCartService } from '../../services/shopping-cart/shopping-cart.service';
 import { ShoppingCartComponent } from '../../components/shopping-cart/shopping-cart.component';
 import { CardItemComponent } from "../../components/card-item/card-item.component";
 import { CommonModule } from '@angular/common';
@@ -18,7 +17,7 @@ import { Product } from '../../models/product';
 export class ProductoComponent {
   product: any;
   categories!: any 
-  constructor(private route: ActivatedRoute, private stockService: StockService, private productService: ProductService,private cartService : ShoppingCartService) { }
+  constructor(private route: ActivatedRoute, private stockService: StockService, private productService: ProductService) { }
 
   ngOnInit(): void {
 
@@ -28,8 +27,6 @@ export class ProductoComponent {
       this.categories = x
 
       if (this.categories !== undefined) {
-        console.log("response")
-        console.log(this.categories)
         var producto : Product = { id : this.categories.subCategorias[0].productos[0].id, 
           descripcion:this.categories.subCategorias[0].productos[0].descripcion,
           nombre : this.categories.subCategorias[0].productos[0].nombre,
@@ -51,15 +48,9 @@ export class ProductoComponent {
             }
           });
         }
-      console.log(this.product)
       }
     })
-    
-    
-    this.cartService.cart$.subscribe(carrito => {
-      // Mantiene sincronizado el carrito
-    });
-
+  
    
   }
 

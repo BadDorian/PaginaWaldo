@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { ShoppingCartService } from '../../services/shopping-cart/shopping-cart.service';
 @Component({
   selector: 'app-whatsapp-button',
   standalone: true,
@@ -10,8 +9,7 @@ import { ShoppingCartService } from '../../services/shopping-cart/shopping-cart.
 export class WhatsappButtonComponent {
   @Input() imgSrcWsp!: string;
   whatsappLink: string = '';
-  cart$ = this.cartService.cart$;
-  constructor(private cartService: ShoppingCartService) {}
+  constructor() {}
 }
 
 

@@ -1,4 +1,4 @@
-import { AfterContentInit, AfterRenderRef, AfterViewInit, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, Renderer2, SimpleChanges } from '@angular/core';
+import { Component ,OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
@@ -40,7 +40,6 @@ export class NavBarComponent implements OnInit,OnDestroy {
 
   ngOnInit(): void {
     this.userSubscription = this.authService.currentUser.subscribe(user => {
-      console.log('Usuario actualizado:', user);
       this.currentUser = user;
     });
     this.shoppingCartService.carrito$.subscribe(items => {
@@ -51,11 +50,10 @@ export class NavBarComponent implements OnInit,OnDestroy {
 
     this.productService.getCategories().subscribe(response => {
       this.categories = response;
-
+     
       this.productService.getSubCategories().subscribe(subCategories => {
         this.subCategories = subCategories;
-        this.groupCategoriesByType();
-        
+        this.groupCategoriesByType(this.subCategories);
       });
     });
 
@@ -79,22 +77,21 @@ export class NavBarComponent implements OnInit,OnDestroy {
     this.router.navigate(['/administracion']);
   }
 
-  // Agrupar categorías por tipo
-  groupCategoriesByType() {
-    this.subCategories.forEach((subCategorie) => {
-      const tipoDescripcion = this.categories.find(x => x.id == subCategorie.tipoProductoId).descripcion;
-
-      if (!this.groupedSubCategories[tipoDescripcion]) {
-        this.groupedSubCategories[tipoDescripcion] = [];
-      }
-
-      this.groupedSubCategories[tipoDescripcion].push(subCategorie);
-    });
+  groupCategoriesByType(subCategorias : any[]){
+    this.categories.forEach((categoria) => {
+      subCategorias.forEach((subCategoria) => {
+        if (categoria.id == subCategoria.tipoProductoId) {
+          if (categoria.subCategorias == null) {
+            categoria.subCategorias = []
+          }
+          categoria.subCategorias.push(subCategoria)
+        }
+      })
+     
+    })
+    
   }
 
-  getTypes(): string[] {
-    return Object.keys(this.groupedSubCategories);
-  }
 
   // Método para alternar la visibilidad del carrito
   toggleCart() {

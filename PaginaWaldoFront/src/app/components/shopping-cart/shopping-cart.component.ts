@@ -26,7 +26,11 @@ export class ShoppingCartComponent implements OnInit {
   ngOnInit() {
     this.shoppingCartService.carrito$.subscribe(items => {
       this.carritoItems = items;
-      console.log('Carrito actualizado:', this.carritoItems);
+      this.carritoItems.forEach(carrito => {
+        carrito.producto.imgProduct = this.createImageFromByteArray(carrito.producto.imgProduct)
+        
+      })
+      
     });
 
     this.shoppingCartService.obtenerCarrito(this.sessionId);
@@ -70,5 +74,10 @@ export class ShoppingCartComponent implements OnInit {
   clearCart() {
     this.carritoItems.forEach(item => this.removeProduct(item.producto.id, item.cantidad));
   }
+
+  createImageFromByteArray(base64String: string): string {
+    return `data:image/jpeg;base64,${base64String}`;
+  }
+
 
 }

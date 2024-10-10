@@ -1,40 +1,6 @@
-/* Ocultar el botón por defecto */
-.hover-btn {
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
+
   
-  /* Mostrar el botón cuando el mouse está sobre la card */
-  .image-card:hover .hover-btn {
-    opacity: 1;
-  }
   
-  /* Estilo adicional para la card */
-  .card-img-overlay {
-    background-color: rgba(0, 0, 0, 0.5); /* Oscurece la imagen al hacer hover */
-    opacity: 1;
-    transition: opacity 0.3s ease;
-    
-  }
-  
-  /* Ocultar y mostrar el fondo oscuro solo en hover */
-  .image-card:hover .card-img-overlay {
-    background-color: rgba(0, 0, 0, 0.7); /* Intensificar el fondo oscuro en hover */
-  }
-  
-  .product-info {
-    margin-bottom: 10px;
-  }
-  
-  .hover-btn-container {
-    flex-grow: 1;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  
-  .image-card:hover .hover-btn-container {
-    opacity: 1;
-  }
   
   .custom-outline-btn{
     --bs-btn-color: #dddddb;
@@ -53,9 +19,7 @@
     --bs-gradient: none;
   }
 
-  .no-border-radius{
-    border-radius: 0;
-  }
+ 
 
   .margin-bottom-custom{
     margin-bottom: 4.5rem;
@@ -66,4 +30,59 @@
     margin-bottom: .5rem;
   }
 }
-  
+
+  /* Subcategoría */
+.subcat-image-wrapper {
+  position: relative;
+  height: 25vw !important;
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.subcat-name {
+  font-size: 2rem;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+
+/* Productos */
+.product-card {
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-20px);
+  box-shadow: 5px 10px 20px black;
+}
+
+/* Animación de entrada */
+.product-card {
+  opacity: 0;
+  animation: fadeInUp 0.8s forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Precios */
+.card-price {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: white;
+}

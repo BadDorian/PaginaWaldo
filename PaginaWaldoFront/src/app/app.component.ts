@@ -4,7 +4,6 @@ import { NavBarComponent } from "./components/nav-bar/nav-bar.component";
 import { AuthService } from './services/auth/auth.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ProductService } from './services/product/product.service';
-import { ShoppingCartService } from './services/shopping-cart/shopping-cart.service';
 import { FooterComponent } from "./components/footer/footer.component";
 import { CartShoppingService } from './services/cart-shopping/cart-shopping.service';
 
@@ -12,7 +11,7 @@ import { CartShoppingService } from './services/cart-shopping/cart-shopping.serv
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, NavBarComponent, HttpClientModule, FooterComponent],
-  providers:[AuthService,ProductService,ShoppingCartService,CartShoppingService],
+  providers:[AuthService,ProductService,CartShoppingService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

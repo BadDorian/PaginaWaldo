@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Product } from '../../models/product';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -30,11 +28,11 @@ export class StockService {
     if (this.productosStock.has(productId)) {
       const stockActual = this.productosStock.get(productId);
       const nuevoStock = stockActual! - cantidad;
-
+  
       // Asegúrate de que el stock no sea negativo
       if (nuevoStock >= 0) {
         this.productosStock.set(productId, nuevoStock);
-        this.actualizarStock();
+        this.actualizarStock(); // Esto asegura que se emitan los cambios
       } else {
         console.log('Stock insuficiente para el producto con ID:', productId);
       }
